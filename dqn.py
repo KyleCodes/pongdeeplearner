@@ -119,7 +119,7 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
         tempAction = action[i]
         actionlist.append(model(state)[i][tempAction])
 
-    Y = Variable(torch.FloatTensor(actionlist))
+    Y = Variable(torch.FloatTensor(actionlist), requires_grad=True)
 
     done_proc = torch.sub(1, done)
     Q_prep = torch.mul(done_proc, torch.max(target_model.forward(next_state)))
@@ -183,6 +183,8 @@ class ReplayBuffer(object):
         reward = np.asarray(reward)
         next_state = np.asarray(next_state)
         done = np.asarray(done)
+
+        # state, action, reward, next_state, done = zip(*random_indexes)
 
         # EACH ONE IS A TENSOR, WHERE INDEX 1 IS BATCH SIZE, will have multiple of each
         return state, action, reward, next_state, done

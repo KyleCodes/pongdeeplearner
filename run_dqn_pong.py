@@ -134,6 +134,9 @@ for frame_idx in range(1, num_frames + 1):
     if frame_idx % 10000 == 0 and len(replay_buffer) <= replay_initial:
         print('#Frame: %d, preparing replay buffer' % frame_idx)
 
+    #    if frame_idx % 10 == 0 and len(replay_buffer) >= replay_initial:
+    #        print("FRAME: " + str(frame_idx) + "\t\t REWARD: " + str(np.mean(all_rewards[-10:], 0)[1]))
+
     # PRINT STATS ABOUT LAST 10K FRAMES (LOSS, AVG REWARD)
     if frame_idx % 10000 == 0 and len(replay_buffer) > replay_initial:
         print('Frame: %d' % frame_idx)
