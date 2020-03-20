@@ -129,7 +129,6 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
 
     loss = nn.functional.mse_loss(Y, Q)
 
-    Y = model.forward(state).gather
 
     return loss
 
