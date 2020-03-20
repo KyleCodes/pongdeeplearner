@@ -73,6 +73,7 @@ class QLearner(nn.Module):
 
     # DECIDES WHETHER TO EXPLOIT OR EXPLORE WHEN DECIDING ACTION
     def act(self, state, epsilon):
+        epsilon = 0.5
         if random.random() > epsilon:
 
             # print(state)
@@ -84,10 +85,10 @@ class QLearner(nn.Module):
             # print(state)
 
             # FORWARDS CURRENT STATE THRU NETWORK AND GRABS THE BEST OUTCOME TO ACT ON
-            action = torch.argmax(Variable(self(state))).item()
+            action = torch.argmax(self.forward(state)).item()
 
         else:
-            action = self.env.action_space.sample()
+            action = random.randrange(self.env.action_space.n)
 
         return action
 
@@ -102,22 +103,12 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     # randomly samples [batch size] experiences (frames) from the replay buffer
     state, action, reward, next_state, done = replay_buffer.sample(batch_size)
 
-    # average all of the accumulated loss / n to get the MSE
-
-    # use done to know when end of episode happens, so this episode can be skipped, perhaps resample if found
-
-    # this exists because it is the agent's perception of the env, of which to learn from. it will compare the expected
-    # reward (target) with the actual reward (model)
-
-    # might need to unsqueeze in order to send thru target network
-
     state = Variable(torch.FloatTensor(np.float32(state)).squeeze(1))
     next_state = Variable(torch.FloatTensor(np.float32(next_state)).squeeze(1), requires_grad=True)
     action = Variable(torch.LongTensor(action))
     reward = Variable(torch.FloatTensor(reward))
     done = Variable(torch.FloatTensor(done))
 
-    # TODO implement the loss function here
 
     # model will be the Y parameter
     # target_model will be the Q* parameter
@@ -125,13 +116,13 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     actionlist = []
     for i in range(len(action)):
         # index of the ith action among {0, ..., 6}
-        tempAction = action[i].item()
+        tempAction = action[i]
         actionlist.append(model(state)[i][tempAction])
 
-    Y = Variable(torch.FloatTensor(actionlist), requires_grad=True)
+    Y = Variable(torch.FloatTensor(actionlist))
 
     done_proc = torch.sub(1, done)
-    Q_prep = torch.mul(done_proc, torch.max(target_model(next_state)).item())
+    Q_prep = torch.mul(done_proc, torch.max(target_model.forward(next_state)))
     Q_prep = torch.mul(gamma, Q_prep)
     Q_prep = torch.add(reward, Q_prep)
 
@@ -149,6 +140,7 @@ class ReplayBuffer(object):
 
     # PUSH A SINGLE EXPERIENCE ONTO THE REPLAY BUFFER
     def push(self, state, action, reward, next_state, done):
+
         state = np.expand_dims(state, 0)
         next_state = np.expand_dims(next_state, 0)
 
@@ -156,7 +148,6 @@ class ReplayBuffer(object):
 
     # RANDOMLY SAMPLE [BATCH_SIZE] FRAMES FROM THE REPLAY BUFFER
     def sample(self, batch_size):
-        # TODO: Randomly sampling data with specific batch size from the buffer
 
         # WRITE CODE THAT SAMPLES WITHOUT REPLACEMENT BATCH SIZE TIMES, THEN APPEND THEM INTO A TENSOR
         # sample buffer will decrease from 10,000 to 9,968, will be filled later
