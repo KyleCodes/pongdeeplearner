@@ -73,7 +73,6 @@ class QLearner(nn.Module):
 
     # DECIDES WHETHER TO EXPLOIT OR EXPLORE WHEN DECIDING ACTION
     def act(self, state, epsilon):
-        epsilon = 0.5
         if random.random() > epsilon:
 
             # print(state)
@@ -117,9 +116,9 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     for i in range(len(action)):
         # index of the ith action among {0, ..., 6}
         tempAction = action[i]
-        actionlist.append(model(state)[i][tempAction])
+        actionlist.append(model.forward(state)[i][tempAction])
 
-    Y = Variable(torch.FloatTensor(actionlist), requires_grad=True)
+    Y = Variable(torch.FloatTensor(actionlist))
 
     done_proc = torch.sub(1, done)
     Q_prep = torch.mul(done_proc, torch.max(target_model.forward(next_state)))
@@ -129,6 +128,8 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     Q = Q_prep
 
     loss = nn.functional.mse_loss(Y, Q)
+
+    Y = model.forward(state).gather
 
     return loss
 

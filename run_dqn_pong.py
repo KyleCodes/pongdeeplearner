@@ -158,7 +158,7 @@ for frame_idx in range(1, num_frames + 1):
     # EVERY 50K FRAMES, UPDATE TARGET NETWORK WITH CURRENT EXMTL ONE
     if frame_idx % 50000 == 0:
         target_model.copy_from(model)
-        target_model.eval()
+
         file_out = file_name
         file_out = re.sub('\.pth', '', file_out)
         now = datetime.now()
