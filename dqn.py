@@ -115,8 +115,8 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     actionlist = []
     for i in range(len(action)):
         # index of the ith action among {0, ..., 6}
-        tempAction = action[i]
-        actionlist.append(model.forward(state)[i][tempAction])
+        tempAction = model.forward(state)[i][action[i]]
+        actionlist.append(torch.max(tempAction))
 
     Y = Variable(torch.FloatTensor(actionlist))
 
