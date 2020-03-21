@@ -12,7 +12,7 @@ from dqn import QLearner, compute_td_loss, ReplayBuffer
 # POLLS OS TO SEE IF GFX CARD AVAILABLE
 USE_CUDA = torch.cuda.is_available()
 
-file_name = "model_pretrained.pth"
+file_name = "model_pretrained_00:11:51_epsilon_0.010000302843297297_frame_750000.pth"
 
 # NAME OF GYM TO INITIALIZE
 env_id = "PongNoFrameskip-v4"
@@ -76,7 +76,7 @@ if USE_CUDA:
 # SETUP FOR EXPLOITATION VS EXPLORATION
 epsilon_start = 1.0
 epsilon_final = 0.01
-epsilon_decay = 50000
+epsilon_decay = 100
 
 # DEFINE FUNCTION FOR UPDATING EPSILON FOR A GIVEN FRAME
 epsilon_by_frame = lambda frame_idx: epsilon_final + (epsilon_start - epsilon_final) * math.exp(

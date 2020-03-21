@@ -118,7 +118,7 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
         tempAction = model.forward(state)[i][action[i]]
         actionlist.append(torch.max(tempAction))
 
-    Y = Variable(torch.FloatTensor(actionlist))
+    Y = Variable(torch.FloatTensor(actionlist), requires_grad=True)
 
     done_proc = torch.sub(1, done)
     Q_prep = torch.mul(done_proc, torch.max(target_model.forward(next_state)))

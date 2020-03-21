@@ -280,3 +280,57 @@ Last-10 average reward: -12.400000
 Epsilon: 0.010067
 Time: 19:11:56
 
+Frame: 20000
+Loss: 0.461805
+Last-10 average reward: -9.500000
+Epsilon: 0.010000
+Time: 00:45:18
+
+Frame: 30000
+Loss: 0.458071
+Last-10 average reward: -10.900000
+Epsilon: 0.010000
+Time: 00:53:44
+
+Frame: 40000
+Loss: 0.457539
+Last-10 average reward: -10.500000
+Epsilon: 0.010000
+Time: 01:02:32
+
+Frame: 50000
+Loss: 0.455770
+Last-10 average reward: -11.100000
+Epsilon: 0.010000
+Time: 01:11:04
+
+Frame: 60000
+Loss: 0.454945
+Last-10 average reward: -10.900000
+Epsilon: 0.010000
+Time: 01:19:40
+
+Frame: 70000
+Loss: 0.455398
+Last-10 average reward: -9.800000
+Epsilon: 0.010000
+Time: 01:28:20
+
+Frame: 80000
+Loss: 0.455518
+Last-10 average reward: -10.500000
+Epsilon: 0.010000
+Time: 01:37:07
+
+Frame: 90000
+Loss: 0.454749
+Last-10 average reward: -11.100000
+Epsilon: 0.010000
+Time: 02:04:03
+
+Frame: 100000
+Loss: 0.454136
+Last-10 average reward: -10.100000
+Epsilon: 0.010000
+Time: 02:13:04
+
