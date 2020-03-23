@@ -129,9 +129,7 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
 
     loss = nn.functional.mse_loss(Y, Q)
 
-
     return loss
-
 
 # CONTAINS A BUFFER OF DEFINITE CAPACITY, CONTAINS EPISODES TO BE RANDOMLY SAMPLED FROM
 class ReplayBuffer(object):
@@ -183,8 +181,6 @@ class ReplayBuffer(object):
         reward = np.asarray(reward)
         next_state = np.asarray(next_state)
         done = np.asarray(done)
-
-        # state, action, reward, next_state, done = zip(*random_indexes)
 
         # EACH ONE IS A TENSOR, WHERE INDEX 1 IS BATCH SIZE, will have multiple of each
         return state, action, reward, next_state, done
